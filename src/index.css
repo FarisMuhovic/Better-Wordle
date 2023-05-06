@@ -1,0 +1,140 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+}
+:root {
+  --wordle-green: #6ca965;
+  --wordle-yellow: #c8b653;
+  --wordle-gray: #787c7f;
+  --dominant-color: #1a1a1a;
+  --text-color: #ffffff;
+}
+body {
+  color: var(--text-color);
+  background-color: var(--dominant-color);
+}
+/* * Background Grid */
+.bg-grid {
+  display: grid;
+  gap: 5px;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+}
+.bg-grid div {
+  background-color: rgba(255, 255, 255, 0.034);
+  transition: 0.15s;
+}
+.green-box:hover {
+  background-color: var(--wordle-green);
+}
+.yellow-box:hover {
+  background-color: var(--wordle-yellow);
+}
+.green-box:not(:hover),
+.yellow-box:not(:hover) {
+  transition-delay: 0.75s;
+  background-color: rgba(255, 255, 255, 0.034);
+}
+/* * Navbar */
+/* * Make it a sidebar, with just the icons and very minimalistic. */
+
+nav {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  min-height: 50px;
+  padding: 10px 25px 50px 25px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0px 0px 3px white;
+}
+nav h1 {
+  justify-self: center;
+}
+.nav-right {
+  justify-self: end;
+  display: flex;
+  gap: 10px;
+}
+.icon-container {
+  padding: 10px;
+  width: 35px;
+  height: 35px;
+  font-size: 22px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+}
+/* * Letter Grid */
+.letter-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: red;
+  width: fit-content;
+  margin: 0 auto;
+}
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+.letter-box {
+  background-color: black;
+  height: 60px;
+  width: 60px;
+  font-size: 30px;
+  text-transform: capitalize;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.correct-spot {
+  background-color: var(--wordle-green);
+}
+.wrong-spot {
+  background-color: var(--wordle-yellow);
+}
+/* * Keyboard */
+.keyboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  width: fit-content;
+  margin: 0 auto;
+}
+.keyboard > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+.keyboard > div > button {
+  background-color: black;
+  height: 30px;
+  width: 30px;
+  font-size: 24px;
+  text-transform: capitalize;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+.del,
+.enter {
+  width: 70px !important;
+}
