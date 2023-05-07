@@ -28,7 +28,9 @@ const LetterGrid = ({
     setrow(prevval => {
       const newrow = [...prevval];
       if (letter) {
-        newrow[letterNumber - 1] = <LetterBox letter={letter} />;
+        if (!row[4].props.letter) {
+          newrow[letterNumber - 1] = <LetterBox letter={letter} />;
+        }
       } else {
         newrow[letterNumber] = <LetterBox />;
       }
@@ -124,7 +126,8 @@ const LetterGrid = ({
               return letter;
             })}
           </div>
-        );s
+        );
+        s;
       })}
       {gridErrorModal.show && <GridErrorModal type={gridErrorModal.type} />}
     </div>

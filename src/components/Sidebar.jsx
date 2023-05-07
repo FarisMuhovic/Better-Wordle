@@ -19,6 +19,6 @@ const Sidebar = () => {
 
 export default Sidebar;
 // ADD GAME DIFFICULTY
-// better navbar
 // fix last letter move
-// add win lose modal
+// add win lose settings help modal
+// animations and mobile responsiveness
