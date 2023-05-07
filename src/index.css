@@ -7,26 +7,40 @@
 :root {
   --wordle-green: #6ca965;
   --wordle-yellow: #c8b653;
-  --wordle-gray: #787c7f;
+  --wordle-gray: #6c7575;
   --dominant-color: #1a1a1a;
-  --text-color: #ffffff;
+  --bg-tile-color: #1f1f1f;
+  --lettergrid-color: #2b2b2b;
+  --text-color: rgb(221, 221, 221);
+  --tile-color: rgb(19, 19, 19);
 }
 body {
   color: var(--text-color);
   background-color: var(--dominant-color);
+  height: 100vh;
+}
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
 }
 /* * Background Grid */
 .bg-grid {
   display: grid;
   gap: 5px;
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1;
+  z-index: 1;
   overflow: hidden;
 }
 .bg-grid div {
-  background-color: rgba(255, 255, 255, 0.034);
+  background-color: var(--bg-tile-color);
   transition: 0.15s;
 }
 .green-box:hover {
@@ -38,65 +52,89 @@ body {
 .green-box:not(:hover),
 .yellow-box:not(:hover) {
   transition-delay: 0.75s;
-  background-color: rgba(255, 255, 255, 0.034);
+  background-color: var(--bg-tile-color);
 }
-/* * Navbar */
-/* * Make it a sidebar, with just the icons and very minimalistic. */
 
+/* * Navbar */
 nav {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  align-items: center;
-  min-height: 50px;
-  padding: 10px 25px 50px 25px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0px 0px 3px white;
-}
-nav h1 {
-  justify-self: center;
-}
-.nav-right {
-  justify-self: end;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  height: fit-content;
+  width: fit-content;
+  padding: 10px 15px 10px 10px;
+  font-size: 25px;
+  border: 1px solid white;
+  z-index: 5;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.062);
+  box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.13);
+  padding: 15px;
+  border-radius: 4px;
 }
-.icon-container {
-  padding: 10px;
-  width: 35px;
-  height: 35px;
-  font-size: 22px;
-  border-radius: 100px;
+.icon-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 9999px;
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+  transition: 0.3s;
   border: 1px solid white;
+  cursor: pointer;
+}
+.icon-wrapper:hover {
+  background-color: white;
+  color: black;
+}
+.icon-wrapper:first-child {
+  margin-bottom: 15px;
+  background-color: white;
+  color: black;
+  pointer-events: none;
 }
 /* * Letter Grid */
 .letter-grid {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  gap: 10px;
-  padding: 20px;
-  background-color: red;
+  gap: 6px;
   width: fit-content;
-  margin: 0 auto;
+  z-index: 2;
+  position: relative;
+  margin: 15px auto;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.062);
+  box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.13);
+  border-radius: 4px;
+  padding: 12px;
 }
 .row {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  gap: 10px;
+  gap: 6px;
 }
 .letter-box {
-  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--tile-color);
   height: 60px;
   width: 60px;
   font-size: 30px;
   text-transform: capitalize;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-weight: 800;
+  border: 2px solid rgb(56, 56, 56);
 }
 .correct-spot {
   background-color: var(--wordle-green);
@@ -110,31 +148,80 @@ nav h1 {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 10px;
-  width: fit-content;
+  gap: 6px;
+  position: relative;
   margin: 0 auto;
+  z-index: 2;
+  width: fit-content;
+  padding: 15px;
+  border-radius: 4px;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.062);
+  box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.13);
 }
 .keyboard > div {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  gap: 10px;
+  gap: 6px;
 }
 .keyboard > div > button {
-  background-color: black;
-  height: 30px;
-  width: 30px;
-  font-size: 24px;
-  text-transform: capitalize;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--tile-color);
+  color: var(--text-color);
+  font-weight: 200;
+  font-size: 22px;
+  text-transform: capitalize;
+  height: 55px;
+  width: 45px;
+  padding: 10px;
   border: none;
-  color: white;
+  border-radius: 4px;
+  transition: 0.25s;
   cursor: pointer;
+}
+.keyboard > div > button:hover {
+  background-color: var(--wordle-gray);
 }
 .del,
 .enter {
   width: 70px !important;
+}
+.correct-key {
+  transition: 0.3s;
+  background-color: var(--wordle-green) !important;
+}
+.wrong-spot-key {
+  transition: 0.3s;
+  background-color: var(--wordle-yellow) !important;
+}
+/* * MODALS */
+.error-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -25px;
+  padding: 7px;
+  font-size: 18px;
+  z-index: 55;
+  background-color: var(--wordle-gray);
+  box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.13);
+  text-transform: capitalize;
+  color: var(--text-color);
+  border-radius: 3px;
+  animation: showmodal 0.3s;
+}
+@keyframes showmodal {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

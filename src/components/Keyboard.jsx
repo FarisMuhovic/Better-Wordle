@@ -1,42 +1,39 @@
-const Keyboard = ({handleKeyInput}) => {
-  function keyClick(e){
+const Keyboard = ({handleKeyInput, keyboardColors}) => {
+  function keyClick(e) {
     handleKeyInput(e.target.innerText, e);
   }
+
+  const firstrow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
+  const secondrow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
+  const thirdrow = ["z", "x", "c", "v", "b", "n", "m"];
+
+  const renderRowButtons = row => {
+    return row.map(letter => {
+      const color = keyboardColors.find(key => key.key === letter)?.color || "";
+      return (
+        <button
+          key={letter}
+          className={`keyboard-button ${color}`}
+          onClick={keyClick}
+        >
+          {letter}
+        </button>
+      );
+    });
+  };
+
   return (
     <div className="keyboard">
-      <div className="first-row">
-        <button className="keyboard-button" onClick={keyClick}>q</button>
-        <button className="keyboard-button" onClick={keyClick}>w</button>
-        <button className="keyboard-button" onClick={keyClick}>e</button>
-        <button className="keyboard-button" onClick={keyClick}>r</button>
-        <button className="keyboard-button" onClick={keyClick}>t</button>
-        <button className="keyboard-button" onClick={keyClick}>y</button>
-        <button className="keyboard-button" onClick={keyClick}>u</button>
-        <button className="keyboard-button" onClick={keyClick}>i</button>
-        <button className="keyboard-button" onClick={keyClick}>o</button>
-        <button className="keyboard-button" onClick={keyClick}>p</button>
-      </div>
-      <div className="second-row">
-        <button className="keyboard-button" onClick={keyClick}>a</button>
-        <button className="keyboard-button" onClick={keyClick}>s</button>
-        <button className="keyboard-button" onClick={keyClick}>d</button>
-        <button className="keyboard-button" onClick={keyClick}>f</button>
-        <button className="keyboard-button" onClick={keyClick}>g</button>
-        <button className="keyboard-button" onClick={keyClick}>h</button>
-        <button className="keyboard-button" onClick={keyClick}>j</button>
-        <button className="keyboard-button" onClick={keyClick}>k</button>
-        <button className="keyboard-button" onClick={keyClick}>l</button>
-      </div>
+      <div className="first-row">{renderRowButtons(firstrow)}</div>
+      <div className="second-row">{renderRowButtons(secondrow)}</div>
       <div className="third-row">
-        <button className="keyboard-button del" onClick={keyClick}>Del</button>
-        <button className="keyboard-button" onClick={keyClick}>z</button>
-        <button className="keyboard-button" onClick={keyClick}>x</button>
-        <button className="keyboard-button" onClick={keyClick}>c</button>
-        <button className="keyboard-button" onClick={keyClick}>v</button>
-        <button className="keyboard-button" onClick={keyClick}>b</button>
-        <button className="keyboard-button" onClick={keyClick}>n</button>
-        <button className="keyboard-button" onClick={keyClick}>m</button>
-        <button className="keyboard-button enter" onClick={keyClick}>Enter</button>
+        <button className={`keyboard-button`} onClick={keyClick}>
+          Del
+        </button>
+        {renderRowButtons(thirdrow)}
+        <button className="keyboard-button enter" onClick={keyClick}>
+          Enter
+        </button>
       </div>
     </div>
   );

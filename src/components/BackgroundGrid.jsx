@@ -15,6 +15,7 @@ const BackgroundGrid = () => {
 
   useEffect(() => {
     const updateDimension = () => {
+      setgrid([]);
       setScreenSize(getCurrentDimension());
     };
     window.addEventListener("resize", updateDimension);

@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from "react";
 import BackgroundGrid from "./components/BackgroundGrid";
 import LetterGrid from "./components/LetterGrid";
-import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 import Keyboard from "./components/Keyboard";
 import {WORDS} from "../public/WORDS";
 
 function App() {
+  // * MODALS
+  const [gridErrorModal, setgridErrorModal] = useState({type: "", show: false});
+
   const [rowNumber, setrowNumber] = useState(0);
   const [letterNumber, setletterNumber] = useState(0);
 
@@ -14,11 +17,6 @@ function App() {
   useEffect(() => {
     setcorrectWord(WORDS[Math.floor(Math.random() * WORDS.length)]);
   }, []);
-
-  console.log("CORRECT WORD:", correctWord);
-  console.log("rowNumber:", rowNumber);
-  console.log("letterNumber:", letterNumber);
-  console.log("guess:", guess);
 
   const [keyPressed, setkeyPressed] = useState({key: "", time: ""});
   const [letter, setletter] = useState("");
@@ -33,6 +31,7 @@ function App() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
   useEffect(() => {
     const key = keyPressed.key;
     if (key >= 65 && key <= 90) {
@@ -52,18 +51,34 @@ function App() {
       // enter key
       if (guess.length === 5 && letterNumber === 5) {
         if (WORDS.includes(guess.toLowerCase())) {
+          if (rowNumber < 5) {
+            setgridErrorModal({type: "Next row", show: true});
+            setTimeout(() => {
+              setgridErrorModal({type: "", show: false});
+            }, 2000);
+          }
           setrowNumber(prevval => prevval + 1);
           setguess("");
           setletterNumber(0);
-          // if word is correct end the game
-          // or if ther user failed to guess the word after 6 rows
+          if (guess.toLowerCase() === correctWord) {
+            console.log("you won,word is found");
+            // display modals for win
+          }
         } else {
-          // wrong word
-          console.log("word not found");
+          setgridErrorModal({type: "Not in word list", show: true});
+          setTimeout(() => {
+            setgridErrorModal({type: "", show: false});
+          }, 2000);
+        }
+        if (rowNumber === 6 && guess.toLowerCase() !== correctWord) {
+          // game over
+          console.log("game over");
         }
       } else {
-        // insufficient letters
-        console.log("insufficient letters");
+        setgridErrorModal({type: "Not enough letters", show: true});
+        setTimeout(() => {
+          setgridErrorModal({type: "", show: false});
+        }, 2000);
       }
     }
     if (key === 8) {
@@ -84,8 +99,10 @@ function App() {
       // prevents the user from going back in browser history
       e.preventDefault();
     }
+
     setkeyPressed({key: asci, time: Date.now()});
   }
+
   function toAsci(keyPressed) {
     let asci;
     if (keyPressed === "Enter") {
@@ -97,18 +114,36 @@ function App() {
     }
     return asci;
   }
+  const [keyboardColors, setkeyboardColors] = useState([]);
+  function updatekeyboardColors(key, correct) {
+    setkeyboardColors(prevval => {
+      return [
+        ...prevval,
+        {
+          key: key,
+          color: correct === "correct-key" ? "correct-key" : "wrong-spot-key",
+        },
+      ];
+    });
+  }
+
   return (
     <>
-      <BackgroundGrid />
-      <Navbar />
+      <Sidebar />
       <LetterGrid
         letter={letter}
         letterNumber={letterNumber}
         rowNumber={rowNumber}
         guess={guess}
         correctWord={correctWord}
+        updatekeyboardColors={updatekeyboardColors}
+        gridErrorModal={gridErrorModal}
       />
-      <Keyboard handleKeyInput={handleKeyInput} />
+      <BackgroundGrid />
+      <Keyboard
+        handleKeyInput={handleKeyInput}
+        keyboardColors={keyboardColors}
+      />
     </>
   );
 }

@@ -1,7 +1,14 @@
 import React, {useState, useEffect} from "react";
 import LetterBox from "./Letterbox";
-const LetterGrid = ({letter, letterNumber, rowNumber, correctWord}) => {
-  // a grid of 6x5
+import GridErrorModal from "./modals/gridErrorModal";
+const LetterGrid = ({
+  letter,
+  letterNumber,
+  rowNumber,
+  correctWord,
+  gridErrorModal,
+  updatekeyboardColors,
+}) => {
   const [row, setrow] = useState([
     <LetterBox />,
     <LetterBox />,
@@ -29,25 +36,30 @@ const LetterGrid = ({letter, letterNumber, rowNumber, correctWord}) => {
     });
   }, [letterNumber, letter, rowNumber]);
   useEffect(() => {
-    setgridBox(prevval => {
-      const newgrid = [...prevval];
-      newgrid[rowNumber] = row;
-      return newgrid;
-    });
+    if (rowNumber < 6) {
+      setgridBox(prevval => {
+        const newgrid = [...prevval];
+        newgrid[rowNumber] = row;
+        return newgrid;
+      });
+    }
   }, [row]);
+
   useEffect(() => {
-    if (rowNumber > 0) {
+    if (rowNumber > 0 && rowNumber < 7) {
       setgridBox(prevval => {
         const newgrid = [...prevval];
         const newrow = row.flatMap((letter, index) => {
           if (correctWord.includes(letter.props.letter)) {
             if (correctWord[index] === letter.props.letter) {
+              updatekeyboardColors(letter.props.letter, "correct-key");
               return {
                 letter: letter.props.letter,
                 correct: true,
                 rightSpot: true,
               };
             } else {
+              updatekeyboardColors(letter.props.letter, "wrong-spot-key");
               return {
                 letter: letter.props.letter,
                 correct: true,
@@ -112,8 +124,9 @@ const LetterGrid = ({letter, letterNumber, rowNumber, correctWord}) => {
               return letter;
             })}
           </div>
-        );
+        );s
       })}
+      {gridErrorModal.show && <GridErrorModal type={gridErrorModal.type} />}
     </div>
   );
 };
