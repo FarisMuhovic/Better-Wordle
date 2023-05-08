@@ -4,146 +4,143 @@ import LetterGrid from "./components/LetterGrid";
 import Sidebar from "./components/Sidebar";
 import Keyboard from "./components/Keyboard";
 import {WORDS} from "../public/WORDS";
+import TestGrid from "./components/Game";
 
 function App() {
-  // * MODALS
-  const [gridErrorModal, setgridErrorModal] = useState({type: "", show: false});
+  // const [gridErrorModal, setGridErrorModal] = useState({type: "", show: false});
 
-  const [rowNumber, setrowNumber] = useState(0);
-  const [letterNumber, setletterNumber] = useState(0);
+  // const [rowNumber, setRowNumber] = useState(0);
+  // const [letterNumber, setLetterNumber] = useState(0);
 
-  const [guess, setguess] = useState("");
-  const [correctWord, setcorrectWord] = useState();
-  useEffect(() => {
-    setcorrectWord(WORDS[Math.floor(Math.random() * WORDS.length)]);
-  }, []);
+  const [correctWord, setCorrectWord] = useState(
+    WORDS[Math.floor(Math.random() * WORDS.length)]
+  );
+  console.log(correctWord);
 
-  const [keyPressed, setkeyPressed] = useState({key: "", time: ""});
-  const [letter, setletter] = useState("");
-  useEffect(() => {
-    const handleKeyDown = e => {
-      handleKeyInput(e.keyCode, e);
-    };
+  // const [keyPressed, setKeyPressed] = useState({key: "", time: ""});
+  // const [letter, setLetter] = useState("");
 
-    document.addEventListener("keydown", handleKeyDown);
-    // Cleanup function
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const key = keyPressed.key;
+  //   if (key >= 65 && key <= 90) {
+  //     setGuess(prevval => {
+  //       if (prevval.length === 5) {
+  //         return prevval;
+  //       } else {
+  //         return prevval + String.fromCharCode(key);
+  //       }
+  //     });
+  //     // setLetter(String.fromCharCode(key).toLowerCase());
+  //     // setLetterNumber(prevval => {
+  //     //   return prevval === 5 ? prevval : prevval + 1;
+  //     // });
+  //   }
+  //   if (key === 13) {
+  //     // enter key
+  //     if (guess.length === 5 && letterNumber === 5) {
+  //       if (WORDS.includes(guess.toLowerCase())) {
+  //         if (rowNumber < 5) {
+  //           // setGridErrorModal({type: "Next row", show: true});
+  //           // setTimeout(() => {
+  //           //   setGridErrorModal({type: "", show: false});
+  //           // }, 3000);
+  //         }
+  //         setRowNumber(prevval => prevval + 1);
+  //         setGuess("");
+  //         setLetterNumber(0);
+  //         if (guess.toLowerCase() === correctWord) {
+  //           console.log("you won,word is found");
+  //           // display modals for win
+  //         }
+  //       } else {
+  //         // setGridErrorModal({type: "Not in word list", show: true});
+  //         // setTimeout(() => {
+  //         //   setGridErrorModal({type: "", show: false});
+  //         // }, 3000);
+  //       }
+  //       if (rowNumber === 6 && guess.toLowerCase() !== correctWord) {
+  //         // game over
+  //         console.log("game over");
+  //       }
+  //     } else {
+  //       // setGridErrorModal({type: "Not enough letters", show: true});
+  //       // setTimeout(() => {
+  //       //   setGridErrorModal({type: "", show: false});
+  //       // }, 3000);
+  //     }
+  //   }
+  //   if (key === 8) {
+  //     // backspace key
+  //     setGuess(prevval => {
+  //       return prevval.length === 0 ? prevval : prevval.slice(0, -1);
+  //     });
+  //     setLetterNumber(prevval => {
+  //       return prevval === 0 ? prevval : prevval - 1;
+  //     });
+  //     setLetter("");
+  //   }
+  // }, [keyPressed]);
+  // function handleKeyInput(keyPressed, e) {
+  //   const asci =
+  //     typeof keyPressed === "string" ? toAsci(keyPressed) : keyPressed;
 
-  useEffect(() => {
-    const key = keyPressed.key;
-    if (key >= 65 && key <= 90) {
-      setguess(prevval => {
-        if (prevval.length === 5) {
-          return prevval;
-        } else {
-          return prevval + String.fromCharCode(key);
-        }
-      });
-      setletter(String.fromCharCode(key).toLowerCase());
-      setletterNumber(prevval => {
-        return prevval === 5 ? prevval : prevval + 1;
-      });
-    }
-    if (key === 13) {
-      // enter key
-      if (guess.length === 5 && letterNumber === 5) {
-        if (WORDS.includes(guess.toLowerCase())) {
-          if (rowNumber < 5) {
-            setgridErrorModal({type: "Next row", show: true});
-            setTimeout(() => {
-              setgridErrorModal({type: "", show: false});
-            }, 2000);
-          }
-          setrowNumber(prevval => prevval + 1);
-          setguess("");
-          setletterNumber(0);
-          if (guess.toLowerCase() === correctWord) {
-            console.log("you won,word is found");
-            // display modals for win
-          }
-        } else {
-          setgridErrorModal({type: "Not in word list", show: true});
-          setTimeout(() => {
-            setgridErrorModal({type: "", show: false});
-          }, 2000);
-        }
-        if (rowNumber === 6 && guess.toLowerCase() !== correctWord) {
-          // game over
-          console.log("game over");
-        }
-      } else {
-        setgridErrorModal({type: "Not enough letters", show: true});
-        setTimeout(() => {
-          setgridErrorModal({type: "", show: false});
-        }, 2000);
-      }
-    }
-    if (key === 8) {
-      // backspace key
-      setguess(prevval => {
-        return prevval.length === 0 ? prevval : prevval.slice(0, -1);
-      });
-      setletterNumber(prevval => {
-        return prevval === 0 ? prevval : prevval - 1;
-      });
-      setletter("");
-    }
-  }, [keyPressed]);
-  function handleKeyInput(keyPressed, e) {
-    const asci =
-      typeof keyPressed === "string" ? toAsci(keyPressed) : keyPressed;
-    if (asci === 8) {
-      // prevents the user from going back in browser history
-      e.preventDefault();
-    }
-
-    setkeyPressed({key: asci, time: Date.now()});
-  }
-
-  function toAsci(keyPressed) {
-    let asci;
-    if (keyPressed === "Enter") {
-      asci = 13;
-    } else if (keyPressed === "Del") {
-      asci = 8;
-    } else {
-      asci = keyPressed.charCodeAt(0);
-    }
-    return asci;
-  }
-  const [keyboardColors, setkeyboardColors] = useState([]);
-  function updatekeyboardColors(key, correct) {
-    setkeyboardColors(prevval => {
-      return [
-        ...prevval,
-        {
-          key: key,
-          color: correct === "correct-key" ? "correct-key" : "wrong-spot-key",
-        },
-      ];
-    });
-  }
+  //   if (asci >= 65 && asci <= 90) {
+  //     setGuess(prevGuess => {
+  //       if (prevGuess.length === 5) {
+  //         return prevGuess;
+  //       } else {
+  //         return prevGuess + String.fromCharCode(asci);
+  //       }
+  //     });
+  //   }
+  //   // if (asci === 8) {
+  //   //   // prevents the user from going back in browser history
+  //   //   e.preventDefault();
+  //   // }
+  //   // setKeyPressed({key: asci, time: Date.now()});
+  // }
+  // function toAsci(keyPressed) {
+  //   let asci;
+  //   if (keyPressed === "Enter") {
+  //     asci = 13;
+  //   } else if (keyPressed === "Del") {
+  //     asci = 8;
+  //   } else {
+  //     asci = keyPressed.charCodeAt(0);
+  //   }
+  //   return asci;
+  // }
+  // const [keyboardColors, setkeyboardColors] = useState([]);
+  // function updatekeyboardColors(key, correct) {
+  //   setkeyboardColors(prevval => {
+  //     return [
+  //       ...prevval,
+  //       {
+  //         key: key,
+  //         color: correct === "correct-key" ? "correct-key" : "wrong-spot-key",
+  //       },
+  //     ];
+  //   });
+  // }
 
   return (
     <>
-      <Sidebar />
-      <LetterGrid
+      {/* <Sidebar /> */}
+      {/* <LetterGrid
         letter={letter}
         letterNumber={letterNumber}
         rowNumber={rowNumber}
         guess={guess}
         correctWord={correctWord}
         updatekeyboardColors={updatekeyboardColors}
-        gridErrorModal={gridErrorModal}
-      />
+        // gridErrorModal={gridErrorModal}
+      /> */}
       <BackgroundGrid />
-      <Keyboard
+      <TestGrid correctWord={correctWord} />
+      {/* <Keyboard
         handleKeyInput={handleKeyInput}
         keyboardColors={keyboardColors}
-      />
+      /> */}
     </>
   );
 }

@@ -33,9 +33,12 @@ const BackgroundGrid = () => {
 
     for (let i = 0; i < rows * cols; i++) {
       const randomNum = Math.random();
-      setgrid(grid => [
-        ...grid,
-        <div className={randomNum < 0.5 ? "green-box" : "yellow-box"}></div>,
+      setgrid(prevgrid => [
+        ...prevgrid,
+        <div
+          className={randomNum < 0.5 ? "green-box" : "yellow-box"}
+          key={i}
+        ></div>,
       ]);
     }
     setrows(rows);

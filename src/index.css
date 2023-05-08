@@ -58,7 +58,7 @@ body {
 /* * Navbar */
 nav {
   position: absolute;
-  left: 10px;
+  left: 5px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -94,13 +94,13 @@ nav {
   color: black;
 }
 .icon-wrapper:first-child {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   background-color: white;
   color: black;
   pointer-events: none;
 }
-/* * Letter Grid */
-.letter-grid {
+/* * Words Grid */
+.words-grid {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,7 +116,7 @@ nav {
   border-radius: 4px;
   padding: 12px;
 }
-.row {
+.grid-row {
   display: flex;
   justify-content: center;
   align-items: center;

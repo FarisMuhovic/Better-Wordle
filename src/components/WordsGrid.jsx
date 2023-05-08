@@ -1,67 +1,50 @@
 import React, {useState, useEffect} from "react";
 import LetterBox from "./Letterbox";
-// import GridErrorModal from "./modals/gridErrorModal";
-const LetterGrid = ({
-  letter,
-  letterNumber,
-  rowNumber,
-  correctWord,
-  // gridErrorModal,
-  updatekeyboardColors,
-}) => {
-  const [row, setrow] = useState([
-    <LetterBox />,
-    <LetterBox />,
-    <LetterBox />,
-    <LetterBox />,
-    <LetterBox />,
+const WordsGrid = props => {
+  const {correctWord, guess, rowNumber} = props;
+
+  const [row, setRow] = useState([
+    <LetterBox key={1} />,
+    <LetterBox key={2} />,
+    <LetterBox key={3} />,
+    <LetterBox key={4} />,
+    <LetterBox key={5} />,
   ]);
-  const [gridBox, setgridBox] = useState([
-    [row],
-    [row],
-    [row],
-    [row],
-    [row],
-    [row],
-  ]);
+  const [gridBox, setGridBox] = useState([row, row, row, row, row, row]);
+
   useEffect(() => {
-    setrow(prevval => {
-      const newrow = [...prevval];
-      if (letter) {
-        if (!row[4].props.letter) {
-          newrow[letterNumber - 1] = <LetterBox letter={letter} />;
-        }
-      } else {
-        newrow[letterNumber] = <LetterBox />;
-      }
-      return newrow;
-    });
-  }, [letterNumber, letter, rowNumber]);
+    for (let i = 0; i < 5; i++) {
+      setRow(prevval => {
+        const newgrid = [...prevval];
+        newgrid[i] = <LetterBox letter={guess[i] ? guess[i] : null} key={i} />;
+        return newgrid;
+      });
+    }
+  }, [guess]);
+
   useEffect(() => {
     if (rowNumber < 6) {
-      setgridBox(prevval => {
-        const newgrid = [...prevval];
-        newgrid[rowNumber] = row;
-        return newgrid;
+      setGridBox(prevGrid => {
+        const newGrid = [...prevGrid];
+        newGrid[rowNumber] = row;
+        return newGrid;
       });
     }
   }, [row]);
 
   useEffect(() => {
-    if (rowNumber > 0 && rowNumber < 7) {
-      setgridBox(prevval => {
-        const newgrid = [...prevval];
+    if (rowNumber < 6) {
+      setGridBox(prevGrid => {
+        const newgrid = [...prevGrid];
         const newrow = row.flatMap((letter, index) => {
           if (correctWord.includes(letter.props.letter)) {
             if (correctWord[index] === letter.props.letter) {
-              updatekeyboardColors(letter.props.letter, "correct-key");
               return {
                 letter: letter.props.letter,
                 correct: true,
                 rightSpot: true,
               };
             } else {
-              updatekeyboardColors(letter.props.letter, "wrong-spot-key");
               return {
                 letter: letter.props.letter,
                 correct: true,
@@ -76,7 +59,7 @@ const LetterGrid = ({
             };
           }
         });
-        newgrid[rowNumber - 1] = newrow.map(letterInfo => {
+        newgrid[rowNumber - 1] = newrow.map((letterInfo, index) => {
           if (letterInfo.correct) {
             if (letterInfo.rightSpot) {
               return (
@@ -84,6 +67,7 @@ const LetterGrid = ({
                   letter={letterInfo.letter}
                   correctSpot={true}
                   wrongSpot={false}
+                  key={index}
                 />
               );
             } else {
@@ -92,6 +76,7 @@ const LetterGrid = ({
                   letter={letterInfo.letter}
                   correctSpot={false}
                   wrongSpot={true}
+                  key={index}
                 />
               );
             }
@@ -101,16 +86,17 @@ const LetterGrid = ({
                 letter={letterInfo.letter}
                 correctSpot={false}
                 wrongSpot={false}
+                key={index}
               />
             );
           }
         });
-        setrow([
-          <LetterBox />,
-          <LetterBox />,
-          <LetterBox />,
-          <LetterBox />,
-          <LetterBox />,
+        setRow([
+          <LetterBox key={1} />,
+          <LetterBox key={2} />,
+          <LetterBox key={3} />,
+          <LetterBox key={4} />,
+          <LetterBox key={5} />,
         ]);
         return newgrid;
       });
@@ -118,20 +104,18 @@ const LetterGrid = ({
   }, [rowNumber]);
 
   return (
-    <div className="letter-grid">
+    <section className="words-grid">
       {gridBox.map((row, index) => {
         return (
-          <div className="row" key={index}>
+          <div className="grid-row" key={index}>
             {row.map(letter => {
               return letter;
             })}
           </div>
         );
-        s;
       })}
-      {/* {gridErrorModal.show && <GridErrorModal type={gridErrorModal.type} />} */}
-    </div>
+    </section>
   );
 };
 
-export default LetterGrid;
+export default WordsGrid;
