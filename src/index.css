@@ -141,6 +141,69 @@ nav {
 .wrong-spot {
   background-color: var(--wordle-yellow);
 }
+.neither {
+  background-color: black;
+}
+.full {
+  animation: letterEnter 0.4s;
+  box-shadow: 0px 0px 1px rgb(255, 255, 255);
+}
+.full-out {
+  animation-name: letterExit;
+  animation-duration: 0.4s;
+  box-shadow: none;
+}
+@keyframes letterEnter {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-3px);
+  }
+  60% {
+    transform: translateY(3px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+@keyframes letterExit {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(3px);
+  }
+  60% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+.shake-row {
+  animation: shakeRow 0.4s;
+}
+@keyframes shakeRow {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
 /* * Keyboard */
 .keyboard {
   display: flex;
@@ -206,7 +269,7 @@ nav {
   bottom: -25px;
   padding: 7px;
   font-size: 18px;
-  z-index: 55;
+  z-index: 255;
   background-color: var(--wordle-gray);
   box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.13);
   text-transform: capitalize;

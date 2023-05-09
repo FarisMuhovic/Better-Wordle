@@ -5,7 +5,8 @@ import Keyboard from "./Keyboard";
 
 const Game = props => {
   const {correctWord} = props;
-
+  const [gridErrorModal, setGridErrorModal] = useState({type: "", show: false});
+  const [shakeRow, setShakeRow] = useState({row: 0, shake: false});
   const [guess, setGuess] = useState("");
   const [rowNumber, setRowNumber] = useState(0);
   const [enterKeyPressed, setEnterKeyPressed] = useState({key: "", time: ""});
@@ -60,32 +61,39 @@ const Game = props => {
     if (enterKeyPressed.key) {
       if (guess.length === 5) {
         if (WORDS.includes(guess)) {
+          if (rowNumber === 5 && correctWord !== guess) {
+            console.log("game over");
+          } else if (correctWord === guess) {
+            console.log("correct word");
+          }
           console.log("in word list");
           setRowNumber(prevRowNumber => {
             return prevRowNumber <= 5 ? prevRowNumber + 1 : prevRowNumber;
           });
           setGuess("");
-          // check letter positions
-          if (rowNumber === 5) {
-            console.log("game over");
-          }
         } else if (correctWord === guess) {
           console.log("correct word");
         } else {
-          console.log("not in word list");
+          setGridErrorModal({type: "Not in word list", show: true});
+          setShakeRow({row: rowNumber, shake: true});
         }
       } else {
-        console.log("not enough letters");
+        setGridErrorModal({type: "Not enough letters", show: true});
+        setShakeRow({row: rowNumber, shake: true});
       }
     }
   }, [enterKeyPressed]);
-
+  console.log(shakeRow);
   return (
     <main>
       <WordsGrid
         correctWord={correctWord}
         guess={guess}
         rowNumber={rowNumber}
+        gridErrorModal={gridErrorModal}
+        setGridErrorModal={setGridErrorModal}
+        shakeRow={shakeRow}
+        setShakeRow={setShakeRow}
       />
       <Keyboard handleKeyInput={handleKeyInput} />
     </main>

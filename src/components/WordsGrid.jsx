@@ -1,7 +1,16 @@
 import React, {useState, useEffect} from "react";
 import LetterBox from "./Letterbox";
+import GridErrorModal from "./modals/GridErrorModal";
 const WordsGrid = props => {
-  const {correctWord, guess, rowNumber} = props;
+  const {
+    correctWord,
+    guess,
+    rowNumber,
+    gridErrorModal,
+    setGridErrorModal,
+    shakeRow,
+    setShakeRow,
+  } = props;
 
   const [row, setRow] = useState([
     <LetterBox key={1} />,
@@ -11,7 +20,6 @@ const WordsGrid = props => {
     <LetterBox key={5} />,
   ]);
   const [gridBox, setGridBox] = useState([row, row, row, row, row, row]);
-
   useEffect(() => {
     for (let i = 0; i < 5; i++) {
       setRow(prevval => {
@@ -33,7 +41,7 @@ const WordsGrid = props => {
   }, [row]);
 
   useEffect(() => {
-    if (rowNumber < 6) {
+    if (rowNumber <= 6) {
       setGridBox(prevGrid => {
         const newgrid = [...prevGrid];
         const newrow = row.flatMap((letter, index) => {
@@ -84,8 +92,7 @@ const WordsGrid = props => {
             return (
               <LetterBox
                 letter={letterInfo.letter}
-                correctSpot={false}
-                wrongSpot={false}
+                wrongLetter={true}
                 key={index}
               />
             );
@@ -102,18 +109,38 @@ const WordsGrid = props => {
       });
     }
   }, [rowNumber]);
-
+  useEffect(() => {
+    if (gridErrorModal.show) {
+      const timeout = setTimeout(() => {
+        setGridErrorModal({type: "", show: false});
+      }, 2500);
+      return () => clearTimeout(timeout);
+    }
+  }, [gridErrorModal]);
+  useEffect(() => {
+    if (shakeRow.shake) {
+      const timeout = setTimeout(() => {
+        setShakeRow({row: null, shake: false});
+      }, 400);
+    }
+  }, [shakeRow]);
   return (
     <section className="words-grid">
       {gridBox.map((row, index) => {
         return (
-          <div className="grid-row" key={index}>
+          <div
+            className={`grid-row ${
+              shakeRow.row === index && shakeRow.shake ? "shake-row" : ""
+            }`}
+            key={index}
+          >
             {row.map(letter => {
               return letter;
             })}
           </div>
         );
       })}
+      {gridErrorModal.show && <GridErrorModal type={gridErrorModal.type} />}
     </section>
   );
 };
