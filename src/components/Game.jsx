@@ -8,6 +8,7 @@ const Game = props => {
   const [gridErrorModal, setGridErrorModal] = useState({type: "", show: false});
   const [shakeRow, setShakeRow] = useState({row: 0, shake: false});
   const [guess, setGuess] = useState("");
+  const [guesses, setGuesses] = useState([]);
   const [rowNumber, setRowNumber] = useState(0);
   const [enterKeyPressed, setEnterKeyPressed] = useState({key: "", time: ""});
 
@@ -61,6 +62,9 @@ const Game = props => {
     if (enterKeyPressed.key) {
       if (guess.length === 5) {
         if (WORDS.includes(guess)) {
+          setGuesses(prevGuesses => {
+            return [...prevGuesses, guess];
+          });
           if (rowNumber === 5 && correctWord !== guess) {
             console.log("game over");
           } else if (correctWord === guess) {
@@ -83,7 +87,14 @@ const Game = props => {
       }
     }
   }, [enterKeyPressed]);
-  console.log(shakeRow);
+  useEffect(() => {
+    if (shakeRow.shake) {
+      const timeout = setTimeout(() => {
+        setShakeRow({row: null, shake: false});
+      }, 400);
+      return () => clearTimeout(timeout);
+    }
+  }, [shakeRow]);
   return (
     <main>
       <WordsGrid
@@ -93,9 +104,13 @@ const Game = props => {
         gridErrorModal={gridErrorModal}
         setGridErrorModal={setGridErrorModal}
         shakeRow={shakeRow}
-        setShakeRow={setShakeRow}
       />
-      <Keyboard handleKeyInput={handleKeyInput} />
+      <Keyboard
+        handleKeyInput={handleKeyInput}
+        guesses={guesses}
+        correctWord={correctWord}
+        rowNumber={rowNumber}
+      />
     </main>
   );
 };

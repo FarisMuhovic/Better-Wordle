@@ -9,7 +9,6 @@ const WordsGrid = props => {
     gridErrorModal,
     setGridErrorModal,
     shakeRow,
-    setShakeRow,
   } = props;
 
   const [row, setRow] = useState([
@@ -117,13 +116,7 @@ const WordsGrid = props => {
       return () => clearTimeout(timeout);
     }
   }, [gridErrorModal]);
-  useEffect(() => {
-    if (shakeRow.shake) {
-      const timeout = setTimeout(() => {
-        setShakeRow({row: null, shake: false});
-      }, 400);
-    }
-  }, [shakeRow]);
+
   return (
     <section className="words-grid">
       {gridBox.map((row, index) => {
