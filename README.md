@@ -7,7 +7,7 @@ Wordle Game Replica is a web application that replicates the popular word-guessi
 - HTML, CSS, and JavaScript for the front-end development.
 - Dictionary API (Specify the API you used, or provide the relevant details if it's a custom API).
 - React
-- 
+
 ## Features
 - Word-guessing gameplay inspired by the Wordle game from the New York Times.
 - Endless rounds: Play as many rounds as you like to practice and improve your word-guessing skills.
