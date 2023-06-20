@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from "react";
-const Keyboard = ({handleKeyInput, guesses, correctWord, rowNumber}) => {
+const Keyboard = ({
+  handleKeyInput,
+  guesses,
+  correctWord,
+  rowNumber,
+  gameEnding,
+}) => {
   function keyClick(e) {
     handleKeyInput(e.target.innerText, e);
   }
@@ -47,7 +53,9 @@ const Keyboard = ({handleKeyInput, guesses, correctWord, rowNumber}) => {
       }
     }
   }, [guesses]);
-
+  useEffect(() => {
+    setKeyboardColors(new Set());
+  }, [gameEnding]);
   const firstRow = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
   const secondRow = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
   const thirdRow = ["z", "x", "c", "v", "b", "n", "m"];
@@ -57,12 +65,12 @@ const Keyboard = ({handleKeyInput, guesses, correctWord, rowNumber}) => {
       const colorObjArray = Array.from(keyboardColors)
         .map(colorObj => JSON.parse(colorObj))
         .filter(colorObj => colorObj.key === letter)
-        .sort((a, b) => b.time - a.time); // Sort by descending timestamp
+        .sort((a, b) => b.time - a.time);
 
       const latestColor = colorObjArray.length != 0 ? colorObjArray[0] : "";
 
       if (latestColor.color === "right-spot") {
-        return "right-spot"; // Keep the "right-spot" color
+        return "right-spot";
       }
 
       const wrongSpotColors = colorObjArray.filter(
@@ -75,10 +83,10 @@ const Keyboard = ({handleKeyInput, guesses, correctWord, rowNumber}) => {
         latestColor.color === "wrong-spot" &&
         latestColor.time > prevWrongSpotTime
       ) {
-        return "right-spot"; // Change the "wrong-spot" color to "right-spot"
+        return "right-spot";
       }
 
-      return latestColor.color; // Keep the existing color
+      return latestColor.color;
     };
 
     return row.map(letter => {

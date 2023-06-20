@@ -9,6 +9,7 @@ const WordsGrid = props => {
     gridErrorModal,
     setGridErrorModal,
     shakeRow,
+    gameEnding,
   } = props;
 
   const [row, setRow] = useState([
@@ -28,7 +29,16 @@ const WordsGrid = props => {
       });
     }
   }, [guess]);
-
+  useEffect(() => {
+    setRow([
+      <LetterBox key={1} />,
+      <LetterBox key={2} />,
+      <LetterBox key={3} />,
+      <LetterBox key={4} />,
+      <LetterBox key={5} />,
+    ]);
+    setGridBox([row, row, row, row, row, row]);
+  }, [gameEnding]);
   useEffect(() => {
     if (rowNumber < 6) {
       setGridBox(prevGrid => {
