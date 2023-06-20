@@ -14,3 +14,6 @@ Wordle Game Replica is a web application that replicates the popular word-guessi
 - Large dictionary: The game's dictionary contains over 13,000 words, providing a wide range of word possibilities.
 - Dictionary API integration: At the end of each game, the API provides the meaning of the word, allowing you to expand your vocabulary and knowledge.
 - User-friendly interface: Enjoy a clean and intuitive interface that enhances the gaming experience.
+
+## CHECK IT OUT LIVE HERE
+## https://6491ca890243700f4e980ee5--gilded-granita-fa7318.netlify.app
