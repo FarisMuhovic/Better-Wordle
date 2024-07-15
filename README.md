@@ -14,4 +14,4 @@ Wordle Game Replica is a web application that replicates the popular word-guessi
 - User-friendly interface: Enjoy a clean and intuitive interface that enhances the gaming experience.
 
 ## CHECK IT OUT LIVE HERE
-## https://6491ca890243700f4e980ee5--gilded-granita-fa7318.netlify.app
+https://66956108d560b16c05166bc3--leafy-muffin-c906f4.netlify.app/
