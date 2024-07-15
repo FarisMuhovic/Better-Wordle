@@ -1,53 +1,54 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react"
+
 const BackgroundGrid = () => {
-  const [grid, setgrid] = useState([]);
-  const [rows, setrows] = useState(0);
-  const [cols, setcols] = useState(0);
-  const [squareSize, setsquareSize] = useState(100);
+  const [grid, setgrid] = useState([])
+  const [rows, setrows] = useState(0)
+  const [cols, setcols] = useState(0)
+  const [squareSize, setsquareSize] = useState(100)
 
   function getCurrentDimension() {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
-    };
+    }
   }
-  const [screenSize, setScreenSize] = useState(getCurrentDimension());
+  const [screenSize, setScreenSize] = useState(getCurrentDimension())
 
   useEffect(() => {
     const updateDimension = () => {
-      setgrid([]);
-      setScreenSize(getCurrentDimension());
-    };
-    window.addEventListener("resize", updateDimension);
-    if (screenSize.width < 600) {
-      setsquareSize(50);
-    } else if (screenSize.width < 900) {
-      setsquareSize(70);
-    } else if (screenSize.width > 2400) {
-      setsquareSize(200);
-    } else {
-      setsquareSize(100);
+      setgrid([])
+      setScreenSize(getCurrentDimension())
     }
-    const rows = Math.floor(screenSize.height / squareSize) + 2;
-    const cols = Math.floor(screenSize.width / squareSize) + 2;
+    window.addEventListener("resize", updateDimension)
+    if (screenSize.width < 600) {
+      setsquareSize(50)
+    } else if (screenSize.width < 900) {
+      setsquareSize(70)
+    } else if (screenSize.width > 2400) {
+      setsquareSize(200)
+    } else {
+      setsquareSize(100)
+    }
+    const rows = Math.floor(screenSize.height / squareSize) + 2
+    const cols = Math.floor(screenSize.width / squareSize) + 2
 
     for (let i = 0; i < rows * cols; i++) {
-      const randomNum = Math.random();
+      const randomNum = Math.random()
       setgrid(prevgrid => [
         ...prevgrid,
         <div
           className={randomNum < 0.5 ? "green-box" : "yellow-box"}
           key={i}
         ></div>,
-      ]);
+      ])
     }
-    setrows(rows);
-    setcols(cols);
+    setrows(rows)
+    setcols(cols)
     // Cleanup function
     return () => {
-      window.removeEventListener("resize", updateDimension);
-    };
-  }, [screenSize]);
+      window.removeEventListener("resize", updateDimension)
+    }
+  }, [screenSize])
 
   return (
     <div
@@ -59,7 +60,7 @@ const BackgroundGrid = () => {
     >
       {grid}
     </div>
-  );
-};
+  )
+}
 
-export default BackgroundGrid;
+export default BackgroundGrid

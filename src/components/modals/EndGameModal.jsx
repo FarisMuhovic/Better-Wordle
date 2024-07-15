@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react"
 
 const endGameModal = ({win, word, setnewWord, setgameEnding, gameStats}) => {
-  const [wordInfo, setWordInfo] = useState(null);
+  const [wordInfo, setWordInfo] = useState(null)
 
   useEffect(() => {
     // Function to fetch word information from the dictionary API
@@ -9,25 +9,27 @@ const endGameModal = ({win, word, setnewWord, setgameEnding, gameStats}) => {
       try {
         const response = await fetch(
           `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-        );
-        const data = await response.json();
-        setWordInfo(data[0]);
+        )
+        const data = await response.json()
+        setWordInfo(data[0])
       } catch (error) {
-        console.error("Error fetching word information", error);
+        console.error("Error fetching word information", error)
       }
-    };
+    }
 
-    fetchWordInfo();
-  }, [word]);
+    fetchWordInfo()
+  }, [word])
   // console.log(gameStats);
   return (
     <dialog className="endGameModal" open>
-      <h1>Game has ended, You {win ? "won" : "lost"}!</h1>
+      <h1 className="hhhh">
+        Game has ended,<br></br>You {win ? "won" : "lost"}!
+      </h1>
       <p className="word-sentence">
         The correct word was <span className="word">{word}</span>
       </p>
       {wordInfo && (
-        <div>
+        <div className="text-hh">
           <p className="info-header">Information about the word:</p>
           <ul className="info-list">
             {wordInfo.meanings.map((meaning, index) => (
@@ -48,16 +50,18 @@ const endGameModal = ({win, word, setnewWord, setgameEnding, gameStats}) => {
         <ul>
           <li>Played: {gameStats.played}</li>
           <li>
-            Winrate: {gameStats.winrate} % ({gameStats.loses} W:{gameStats.wins}{" "}
+            Winrate: {gameStats.winrate} % ({gameStats.wins} W:{" "}
+            {gameStats.loses}
             L)
           </li>
           <li>Current Streak: {gameStats.streak}</li>
         </ul>
       </div>
       <form
-        onSubmit={() => {
-          setgameEnding({end: false, win: false});
-          setnewWord();
+        onSubmit={e => {
+          e.preventDefault()
+          setgameEnding({end: false, win: false})
+          setnewWord()
         }}
       >
         <button className="play-again-button" type="submit">
@@ -65,7 +69,7 @@ const endGameModal = ({win, word, setnewWord, setgameEnding, gameStats}) => {
         </button>
       </form>
     </dialog>
-  );
-};
+  )
+}
 
-export default endGameModal;
+export default endGameModal

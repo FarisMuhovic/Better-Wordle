@@ -508,7 +508,6 @@ nav {
   transform: translate(-50%, -50%);
   z-index: 15;
   background-color: rgb(2, 2, 2);
-  height: 90%;
   max-width: 450px;
   width: 95%;
   border-radius: 15px;
@@ -523,30 +522,39 @@ nav {
   flex-direction: column;
   gap: 10px;
 }
+.hhhh {
+  text-align: center;
+}
 .word-sentence {
   border-bottom: 1px solid white;
   padding: 10px 0;
+  font-size: 18px;
+  line-height: 40px;
+  letter-spacing: 0.5px;
 }
 .word {
   font-size: 30px;
-  padding: 10px;
-  font-weight: bold;
   text-transform: capitalize;
+  color: var(--wordle-green);
+  font-weight: bold;
 }
 .endGameModal .info-header {
   font-size: 18px;
-  font-weight: bold;
 }
 
 .endGameModal .info-list {
   border-bottom: 1px solid white;
-  padding: 10px 0;
-  margin-top: 10px;
-  padding-left: 0;
 }
-
-.endGameModal .part-of-speech {
-  font-weight: bold;
+.endGameModal .info-list li {
+  border-bottom: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.text-hh {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .endGameModal .definition {
